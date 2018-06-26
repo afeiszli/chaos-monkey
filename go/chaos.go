@@ -223,16 +223,16 @@ func ExecuteChaos(chaosInput *ChaosInput, mode string) {
 		switch randComponent {
 		case 1:
 			pods := GetPods(chaosInput.Token, chaosInput.Project, chaosInput.Url)
-			if pods != nil && len(pods) > 0 {
-				randPod := random(0, len(pods))
+			if pods != nil && len(pods) > 1 {
+				randPod := random(1, len(pods))
 				DeletePod(pods[randPod], chaosInput)
 			}
 		case 2:
 			dcs := GetDCs(chaosInput)
-			if dcs != nil && len(dcs) > 0 {
-				randDc := random(0, len(dcs))
+			if dcs != nil && len(dcs) > 1 {
+				randDc := random(1, len(dcs))
 				replicas := dcs[randDc].Replicas
-				if replicas > 0 {
+				if replicas > 1 {
 					replicas--
 				} else {
 					replicas++
@@ -240,7 +240,7 @@ func ExecuteChaos(chaosInput *ChaosInput, mode string) {
 				//To avoid Monkey-ops atack itself
 				if dcs[randDc].Name ==  os.Getenv("APP_NAME"){
 					log.Println("Prevent Monkey-Ops from attacking itself")
-					if randDc == 0 {
+					if randDc == 1 {
 						randDc ++
 					} else {
 						randDc --
