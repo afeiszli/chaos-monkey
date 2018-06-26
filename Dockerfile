@@ -1,5 +1,6 @@
-FROM scratch
-MAINTAINER Julian Fernandez Serra julian.fernandez@extern.isban.com
+FROM produban/monkey-ops:1.0.0.RELEASE
 
-ADD monkey-ops /
-CMD ["/monkey-ops"]
+RUN rm go/chaos.go
+
+CP go/chaos.go go/
+
